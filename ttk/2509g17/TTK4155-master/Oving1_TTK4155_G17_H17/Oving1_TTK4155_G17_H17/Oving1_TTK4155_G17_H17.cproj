@@ -121,6 +121,9 @@
     <Compile Include="button_interrupts.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="CFile1.c">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="font.h">
       <SubType>compile</SubType>
     </Compile>
@@ -140,6 +143,12 @@
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="MCP2515.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="MCP2515_driver.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="MCP2515_driver.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="menu.c">

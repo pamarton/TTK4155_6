@@ -39,9 +39,11 @@ SUBDIRS :=
 C_SRCS +=  \
 ../adc.c \
 ../button_interrupts.c \
+../CFile1.c \
 ../input_conversion.c \
 ../i_o.c \
 ../main_G17.c \
+../MCP2515_driver.c \
 ../menu.c \
 ../oled.c \
 ../SPI.c \
@@ -57,9 +59,11 @@ ASM_SRCS +=
 OBJS +=  \
 adc.o \
 button_interrupts.o \
+CFile1.o \
 input_conversion.o \
 i_o.o \
 main_G17.o \
+MCP2515_driver.o \
 menu.o \
 oled.o \
 SPI.o \
@@ -68,9 +72,11 @@ uart.o
 OBJS_AS_ARGS +=  \
 adc.o \
 button_interrupts.o \
+CFile1.o \
 input_conversion.o \
 i_o.o \
 main_G17.o \
+MCP2515_driver.o \
 menu.o \
 oled.o \
 SPI.o \
@@ -79,9 +85,11 @@ uart.o
 C_DEPS +=  \
 adc.d \
 button_interrupts.d \
+CFile1.d \
 input_conversion.d \
 i_o.d \
 main_G17.d \
+MCP2515_driver.d \
 menu.d \
 oled.d \
 SPI.d \
@@ -90,9 +98,11 @@ uart.d
 C_DEPS_AS_ARGS +=  \
 adc.d \
 button_interrupts.d \
+CFile1.d \
 input_conversion.d \
 i_o.d \
 main_G17.d \
+MCP2515_driver.d \
 menu.d \
 oled.d \
 SPI.d \
@@ -112,6 +122,10 @@ LINKER_SCRIPT_DEP+=
 
 
 # AVR32/GNU C Compiler
+
+
+
+
 
 
 

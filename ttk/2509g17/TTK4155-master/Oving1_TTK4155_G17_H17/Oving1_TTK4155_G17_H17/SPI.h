@@ -12,14 +12,13 @@
 #include <avr/io.h>
 #include "uart.h" //REMOVE AFTER USE
 #include "i_o.h"
+#include "MCP2515.h"
 
-void SPI_write_instruction(uint8_t reg, unsigned char data);
-void SPI_read_buffer(unsigned char data);
+
+
 void SPI_initialize(void);
 
-void SPI_select(void);
-void SPI_deselect(void);
-void SPI_reselect(void);
+
 
 void SPI_send(char data);
 char SPI_read(void);

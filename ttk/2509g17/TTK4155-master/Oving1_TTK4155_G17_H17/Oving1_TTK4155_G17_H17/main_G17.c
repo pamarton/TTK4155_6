@@ -29,7 +29,7 @@ void initalize(void);
 void bootscreen(void);
 #include "oled.h"
 #include "menu.h"
-#include "SPI.h"
+#include "MCP2515_driver.h"
 
 
 
@@ -44,19 +44,22 @@ int main(void)
 	
 	
 	cli();
-	SPI_initialize();
-	int i = SPI_read_instruction(0b00010000);
-	printf("%i",i);
+	MCP2515_initialize();
 	
-	char test = 0xff;
-	if(test > 0xfff){
-		printf("ASDASF");
+	
+	
+	for (int i = 0; i< 256; i++){
+		MCP2515_write(0b00000000,i);
+		printf("Value of i: %i\t value of reg:\t%i\n",i,MCP2515_read(0b00000000));
 	}
+	
+	
+	
 	while (1)
 	{
-		int i = SPI_read_instruction(0b00000000);
-		_delay_ms(10);
-		printf("%i",i);
+		//int i = SPI_read_instruction(0b00000000);
+		//_delay_ms(1);
+		//printf("%i",i);
 	}
 	printf("\n\n\n\n\n");
 	write_screen();
