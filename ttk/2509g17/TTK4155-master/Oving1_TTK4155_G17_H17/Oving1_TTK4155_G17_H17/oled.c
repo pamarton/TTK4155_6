@@ -186,7 +186,7 @@ int sram_write_char(char letter){
 			ext_ram[page_sram*128 + col_sram] = pgm_read_byte(&font[letter-' '][i]);
 			col_sram++;
 		}
-		edited |= (0b00000001 << page_sram);
+		edited |= (1 << page_sram);
 		return 1;
 	}else{
 		return 0;
@@ -203,17 +203,17 @@ void sram_init(void){
 }
 
 void sram_write(int page, int col, char data){
-	ext_ram[page*128 + col] = data;
+	ext_ram[page%8*128 + col%128] = data;
 	edited |= 1 << page;
 }
 
 void sram_write_and(int page, int col, char data){
-	ext_ram[page*128 + col] &= data;
+	ext_ram[page%8*128 + col%128] &= data;
 	edited |= 1 << page;
 }
 
 void sram_write_or(int page, int col, char data){
-	ext_ram[page*128 + col] |= data;
+	ext_ram[page%8*128 + col%128] |= data;
 	edited |= 1 << page;
 }
 
@@ -258,10 +258,7 @@ void sram_draw_line(int x0, int y0, int x1, int y1){
 		}
 	}
 	
-	for (uint8_t edited_y = y0; edited_y < y1; edited_y++)//set the edited-flag for the desired lines
-	{
-		edited |= 1 << edited_y;
-	}
+	edited = 0b11111111;
 }
 
 void sram_draw_circle(int x0, int y0, int radius){
@@ -273,7 +270,7 @@ void sram_draw_circle(int x0, int y0, int radius){
 
 
 void write_screen(void){//update all the pages that are edited
-	int line = 0;
+	/*int line = 0;
 	while (edited != 0b00000000){ //if there is an edited page it will update
 		char current_page = 1 << line; //going 1 at a time
 		if(current_page & edited){ //checks if the page is edited
@@ -287,14 +284,14 @@ void write_screen(void){//update all the pages that are edited
 		
 	}
 	
-	/*
+	*/
 	
-	for(unsigned int r = 0b00000001; r =0; r<<1){//old code that updates everything
+	for(unsigned int r = 0; r < 8; r++){//old code that updates everything
 		oled_goto_line(r);
 		for(unsigned int k = 0; k < 128; k++){
 			write_d(ext_ram[r*128 + k]);
 		}
-	}*/
+	}
 }
 
 void sram_clear_line(unsigned int line){

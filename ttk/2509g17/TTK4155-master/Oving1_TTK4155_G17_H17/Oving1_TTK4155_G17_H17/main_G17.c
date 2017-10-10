@@ -29,27 +29,61 @@ void initalize(void);
 void bootscreen(void);
 #include "oled.h"
 #include "menu.h"
+#include "SPI.h"
+
+
 
 int main(void)
 {
 	
 	initalize();
 	
-	_delay_ms(1000);
 	sram_init();
 	oled_goto_line(7);
-	sram_write_string(" - BYGGERN - G17");
+	//sram_write_string(" - BYGGERN - G17");
+	
+	
+	cli();
+	SPI_initialize();
+	int i = SPI_read_instruction(0b00010000);
+	printf("%i",i);
+	
+	char test = 0xff;
+	if(test > 0xfff){
+		printf("ASDASF");
+	}
+	while (1)
+	{
+		int i = SPI_read_instruction(0b00000000);
+		_delay_ms(10);
+		printf("%i",i);
+	}
+	printf("\n\n\n\n\n");
+	write_screen();
+	int d = 0;
+	while(1){
+		
+		
+		//_delay_ms(100);
+		oled_goto_line(5);
+		//sram_write_char(SPI_read());
+		oled_goto_line(6);
+		sram_write_string("DONE");
+		//_delay_ms(100);
+		write_screen();
+		d++;
+	}
+	
 	
 	
 	while(1){
-		_delay_ms(100);
+		_delay_ms(20);
 		menu_update();
 	}
 	
 	//testUart();
 	
 }
-
 
 
 
@@ -65,7 +99,7 @@ void initalize(void){
 	
 	oled_ini();
 	sram_init();
-	bootscreen();
+	//bootscreen();
 	write_screen();
 	
 	

@@ -109,10 +109,10 @@ void menu_update(void){
 	write_screen();
 }
 
-
+int y_lock = 0;
 
 int navigate_menu(void){
-	int joystick_reading_y = read_control_input('Y');
+	/*int joystick_reading_y = read_control_input('Y');
 	
 	if(joystick_reading_y > NAVIGATION_TRHESHOLD){
 		for(int i = 0; i < current_selected->n_sib-1; i++){
@@ -121,7 +121,26 @@ int navigate_menu(void){
 	}
 	else if (joystick_reading_y < -NAVIGATION_TRHESHOLD){
 		current_selected = current_selected->ptr_sib_down;
-	}else if (right_button_flag == 1)
+	}
+	*/
+	int joystick_reading = read_control_input('Y');
+	
+	// Navigate up.
+	if(joystick_reading > NAVIGATION_TRHESHOLD && y_lock <= NAVIGATION_TRHESHOLD){
+		for(int i = 0; i < current_selected->n_sib-1; i++){
+			current_selected = current_selected->ptr_sib_down;
+		}
+		y_lock = RANGE_MAX;
+		
+	}else if (joystick_reading < -NAVIGATION_TRHESHOLD && y_lock >= -NAVIGATION_TRHESHOLD)
+	{
+		current_selected = current_selected->ptr_sib_down;
+		y_lock = RANGE_MIN;
+		// No navigation input on y-axis.
+	}else if(joystick_reading < NAVIGATION_TRHESHOLD && joystick_reading > -NAVIGATION_TRHESHOLD){
+		y_lock = 0;
+	}
+	if (right_button_flag == 1)
 	{
 		right_button_flag = 0;
 		if(current_selected->ptr_child != NULL){

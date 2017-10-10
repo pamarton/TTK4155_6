@@ -16,5 +16,7 @@ menu.c
 
 oled.c
 
+SPI.c
+
 uart.c
 

@@ -44,6 +44,7 @@ C_SRCS +=  \
 ../main_G17.c \
 ../menu.c \
 ../oled.c \
+../SPI.c \
 ../uart.c
 
 
@@ -61,6 +62,7 @@ i_o.o \
 main_G17.o \
 menu.o \
 oled.o \
+SPI.o \
 uart.o
 
 OBJS_AS_ARGS +=  \
@@ -71,6 +73,7 @@ i_o.o \
 main_G17.o \
 menu.o \
 oled.o \
+SPI.o \
 uart.o
 
 C_DEPS +=  \
@@ -81,6 +84,7 @@ i_o.d \
 main_G17.d \
 menu.d \
 oled.d \
+SPI.d \
 uart.d
 
 C_DEPS_AS_ARGS +=  \
@@ -91,6 +95,7 @@ i_o.d \
 main_G17.d \
 menu.d \
 oled.d \
+SPI.d \
 uart.d
 
 OUTPUT_FILE_PATH +=Oving1_TTK4155_G17_H17.elf
@@ -107,6 +112,8 @@ LINKER_SCRIPT_DEP+=
 
 
 # AVR32/GNU C Compiler
+
+
 
 
 
