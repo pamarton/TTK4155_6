@@ -86,10 +86,10 @@ Copyright 2003 Kimberly Otten Software Consulting
 #define MCP_LOAD_TX1	0x42
 #define MCP_LOAD_TX2	0x44
 
-#define MCP_RTS_TX0		0x81
-#define MCP_RTS_TX1		0x82
-#define MCP_RTS_TX2		0x84
-#define MCP_RTS_ALL		0x87
+#define MCP_RTS_TX0		0x81//01000001
+#define MCP_RTS_TX1		0x82//01000010
+#define MCP_RTS_TX2		0x84//01000100
+#define MCP_RTS_ALL		0x87//01001000
 
 #define MCP_READ_RX0	0x90
 #define MCP_READ_RX1	0x94
@@ -153,6 +153,22 @@ Copyright 2003 Kimberly Otten Software Consulting
 #define MCP_ERRIF		0x20
 #define MCP_WAKIF		0x40
 #define MCP_MERRF		0x80
+
+
+
+
+
+
+
+
+
+
+
+#define MCP_TXBnSIDH	0x31
+#define MCP_TXBnSIDL	0x32
+#define MCP_TXBnDLC		0x35
+#define MCP_TXBnD0		0x36
+
 
 
 

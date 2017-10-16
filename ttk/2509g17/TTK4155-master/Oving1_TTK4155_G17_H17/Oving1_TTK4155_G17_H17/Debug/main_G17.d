@@ -23,7 +23,7 @@ main_G17.d main_G17.o: .././main_G17.c \
  .././menu.h .././oled.h \
  c:\program\ files\ (x86)\atmel\atmel\ toolchain\avr8\ gcc\native\3.4.1061\avr8-gnu-toolchain\avr\include\avr\pgmspace.h \
  c:\program\ files\ (x86)\atmel\atmel\ toolchain\avr8\ gcc\native\3.4.1061\avr8-gnu-toolchain\avr\include\stdlib.h \
- .././MCP2515_driver.h .././SPI.h .././MCP2515.h
+ .././can.h .././MCP2515.h .././MCP2515_driver.h .././SPI.h
 
 c:\program\ files\ (x86)\atmel\atmel\ toolchain\avr8\ gcc\native\3.4.1061\avr8-gnu-toolchain\avr\include\stdio.h:
 
@@ -81,8 +81,10 @@ c:\program\ files\ (x86)\atmel\atmel\ toolchain\avr8\ gcc\native\3.4.1061\avr8-g
 
 c:\program\ files\ (x86)\atmel\atmel\ toolchain\avr8\ gcc\native\3.4.1061\avr8-gnu-toolchain\avr\include\stdlib.h:
 
+.././can.h:
+
+.././MCP2515.h:
+
 .././MCP2515_driver.h:
 
 .././SPI.h:
-
-.././MCP2515.h:

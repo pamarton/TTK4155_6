@@ -6,11 +6,14 @@
  */ 
 #include "SPI.h"
 
+#define		SPI_SS			PB4
+#define		SPI_MOSI		PB5
+#define		SPI_MISO		PB6
+#define		SPI_SCK			PB7
 
 void SPI_initialize(void){
-	DDRB |=	(1 << PB5) | (1 << PB7) | (1 << PB4);
-	DDRB &= ~(1 << PB6);
-	PORTB |= (1 << PB4);
+	DDRB |=	(1 << SPI_MOSI) | (1 << SPI_SCK) | (1 << SPI_SS);
+	DDRB &= ~(1 << SPI_MISO);
 	//BIT_ON(SPCR,SPIE);		//SPI INTERRUPT ENABLE
 	//BIT_OFF(SPCR,DORD);		//transmit the most significant bit first, change to ON if we transmit the Least significant first
 	BIT_ON(SPCR,MSTR);		//MASTER/SLAVE SELECT, set to 1 for master, 0 for slave (master wanted)
@@ -19,8 +22,9 @@ void SPI_initialize(void){
 	//BIT_ON(SPCR,SPR1);		//SPI CLOCK RATE SELECT, BIT 1
 	//BIT_ON(SPCR,SPR0);		//SPI CLOCK RATE SELECT, BIT 0
 	BIT_ON(SPCR,SPE);		//SPI ENABLE, overrides the normal pins function (we want this)
+	SPSR |= (1 << SPI2X); //ADD COMMENT------------------------------------------------------------------------------------------------------------
 	//sei();
-	
+	SPI_deselect();
 }
 
 
@@ -44,3 +48,10 @@ char SPI_read(void){
 	return SPDR;
 }
 
+void SPI_select(void){
+	PORTB &= ~(1 << SPI_SS);
+}
+
+void SPI_deselect(void){
+	PORTB |= (1 << SPI_SS);
+}

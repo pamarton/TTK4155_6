@@ -29,8 +29,8 @@ void initalize(void);
 void bootscreen(void);
 #include "oled.h"
 #include "menu.h"
-#include "MCP2515_driver.h"
-
+//#include "MCP2515_driver.h"
+#include "can.h"
 
 
 int main(void)
@@ -43,15 +43,32 @@ int main(void)
 	//sram_write_string(" - BYGGERN - G17");
 	
 	
-	cli();
+	
 	MCP2515_initialize();
-	
-	
-	
-	for (int i = 0; i< 256; i++){
-		MCP2515_write(0b00000000,i);
-		printf("Value of i: %i\t value of reg:\t%i\n",i,MCP2515_read(0b00000000));
+	CAN_initialize();
+	uint8_t data[8];
+	for (int i = 0; i<8; i++)
+	{
+		data[i] = i+3;
 	}
+	CAN_construct_meassage(6,8,data);
+	sei();
+	//MCP2515_testSPI();	
+	
+	
+	
+	CAN_message_send(data);
+	//CAN_data_receive();
+	_delay_us(100);
+	
+	for (int i = 0; i<8; i++)
+	{
+		data[i] = i+100;
+	}
+	
+	CAN_message_send(data);
+	//CAN_data_receive();
+	
 	
 	
 	
@@ -61,24 +78,10 @@ int main(void)
 		//_delay_ms(1);
 		//printf("%i",i);
 	}
-	printf("\n\n\n\n\n");
-	write_screen();
-	int d = 0;
-	while(1){
-		
-		
-		//_delay_ms(100);
-		oled_goto_line(5);
-		//sram_write_char(SPI_read());
-		oled_goto_line(6);
-		sram_write_string("DONE");
-		//_delay_ms(100);
-		write_screen();
-		d++;
-	}
 	
 	
 	
+	sei();
 	while(1){
 		_delay_ms(20);
 		menu_update();
@@ -103,7 +106,7 @@ void initalize(void){
 	oled_ini();
 	sram_init();
 	//bootscreen();
-	write_screen();
+	//write_screen();
 	
 	
 	printf("OLED successfully initialized\n");
@@ -111,7 +114,7 @@ void initalize(void){
 	
 	initialize_control_input();
 	printf("control input successfully initialized\n\n");
-	SRAM_test();
+	//SRAM_test();
 	printf("SRAM successfully initialized\n");
 	initalize_interrupts();
 	printf("Interrupts successfully initialized\n");
@@ -189,5 +192,6 @@ void bootscreen(void){
 	sram_draw_line(x-6,y-24,x,y-24);
 	sram_draw_line(x,y-24,x-3,y-12);
 	sram_draw_line(x-3,y-12,x,y);//end of number
-	
+	write_screen();
+	_delay_ms(1000);
 }

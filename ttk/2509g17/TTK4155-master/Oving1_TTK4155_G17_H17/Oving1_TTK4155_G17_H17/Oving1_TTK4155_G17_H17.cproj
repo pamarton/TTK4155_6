@@ -121,6 +121,12 @@
     <Compile Include="button_interrupts.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="can.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="can.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="CFile1.c">
       <SubType>compile</SubType>
     </Compile>

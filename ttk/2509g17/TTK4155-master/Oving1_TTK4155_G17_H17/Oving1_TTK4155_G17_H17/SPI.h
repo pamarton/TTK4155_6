@@ -14,13 +14,10 @@
 #include "i_o.h"
 #include "MCP2515.h"
 
-
-
 void SPI_initialize(void);
-
-
-
 void SPI_send(char data);
 char SPI_read(void);
+void SPI_select(void);
+void SPI_deselect(void);
 
 #endif /* SPI_H_ */

@@ -6,6 +6,8 @@ adc.c
 
 button_interrupts.c
 
+can.c
+
 CFile1.c
 
 input_conversion.c
