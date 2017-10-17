@@ -40,7 +40,6 @@ C_SRCS +=  \
 ../adc.c \
 ../button_interrupts.c \
 ../can.c \
-../CFile1.c \
 ../input_conversion.c \
 ../i_o.c \
 ../main_G17.c \
@@ -61,7 +60,6 @@ OBJS +=  \
 adc.o \
 button_interrupts.o \
 can.o \
-CFile1.o \
 input_conversion.o \
 i_o.o \
 main_G17.o \
@@ -75,7 +73,6 @@ OBJS_AS_ARGS +=  \
 adc.o \
 button_interrupts.o \
 can.o \
-CFile1.o \
 input_conversion.o \
 i_o.o \
 main_G17.o \
@@ -89,7 +86,6 @@ C_DEPS +=  \
 adc.d \
 button_interrupts.d \
 can.d \
-CFile1.d \
 input_conversion.d \
 i_o.d \
 main_G17.d \
@@ -103,7 +99,6 @@ C_DEPS_AS_ARGS +=  \
 adc.d \
 button_interrupts.d \
 can.d \
-CFile1.d \
 input_conversion.d \
 i_o.d \
 main_G17.d \
@@ -127,8 +122,6 @@ LINKER_SCRIPT_DEP+=
 
 
 # AVR32/GNU C Compiler
-
-
 
 
 

@@ -5,11 +5,9 @@
  *  Author: pamarton
  */ 
 
-
 #include "can.h"
 volatile static CAN_message_t CAN_receive_buffer;
 static CAN_message_t CAN_send_buffer;
-
 
 void CAN_initialize(void){
 	int i = 1;
@@ -53,37 +51,51 @@ void CAN_send_byte(CAN_message_t* message,uint8_t n){
 	
 }
 
-
-
-
-
-
-
 uint8_t CAN_read(uint8_t adr){
 	return MCP2515_read(adr);
 }
-
 
 #define RXBnSIDH 0x61
 #define RXBnSIDL 0x62
 #define RXBnDLC 0x65
 #define RXBnDM 0x66
-void CAN_data_receive(uint8_t n) {
-	CAN_receive_buffer.id = ((CAN_read(RXBnSIDH + n*0x10)<<3)|(0b11100000 & (CAN_read(RXBnSIDL + n*0x10))>>5));
-	CAN_receive_buffer.length = (CAN_read(RXBnDLC + n*0x10) & 0b00001111);
-	for (uint8_t m = 0; m < CAN_receive_buffer.length; m++){
-		CAN_receive_buffer.data[m] = CAN_read(RXBnDM + m);
+
+void CAN_data_receive() {
+	uint8_t n = CAN_transmit_complete();
+	if (n >= 1){
+		CAN_receive_buffer.id = ((CAN_read(RXBnSIDH + n*0x10)<<3)|(0b11100000 & (CAN_read(RXBnSIDL + n*0x10))>>5));
+		CAN_receive_buffer.length = (CAN_read(RXBnDLC + n*0x10) & 0b00001111);
+		for (uint8_t m = 0; m < CAN_receive_buffer.length; m++){
+			CAN_receive_buffer.data[m] = CAN_read(RXBnDM + m);
+		}
+		
 	}
-	
-	MCP2515_bit_modify(MCP_CANINTF,1<<n,0);
-	
-	printf("ID %i L: %i DATA: %i %i %i %i %i %i %i %i\n",CAN_send_buffer.id,CAN_send_buffer.length,CAN_send_buffer.data[0],CAN_send_buffer.data[1],CAN_send_buffer.data[2],CAN_send_buffer.data[3],CAN_send_buffer.data[4],CAN_send_buffer.data[5],CAN_send_buffer.data[6],CAN_send_buffer.data[7]);
-	
-	
-	
+	printf("%i",CAN_receive_buffer.data[0]);
+	MCP2515_bit_modify(MCP_CANINTF,0xFF,0); //clear all interrupts
+}
+
+ISR(INT2_vect){//interrupt button Left
+	CAN_data_receive();
 }
 
 
-ISR(INT2_vect){//interrupt button Left
-	CAN_data_receive(0);
+uint8_t CAN_transmit_complete(void){
+
+
+	volatile char interrupt = MCP2515_read(MCP_CANINTF);
+
+	while((!((1 << MCP_RX0IF) & interrupt))&&(!((1 << MCP_RX1IF)&interrupt))){
+		interrupt = MCP2515_read(MCP_CANINTF);
+	}
+	
+
+	if((1 << MCP_RX0IF)&interrupt){
+		return 0;
+	}
+	else if((1 << MCP_RX1IF)&interrupt){
+		return 1;
+	}
+	else{
+		return -1;
+	}
 }

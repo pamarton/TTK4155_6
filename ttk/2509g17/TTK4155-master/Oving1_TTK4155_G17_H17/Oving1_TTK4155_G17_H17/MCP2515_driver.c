@@ -7,7 +7,6 @@
 
 #include "MCP2515_driver.h"
 
-
 void MCP2515_initialize(void){
 	SPI_initialize();
  	SPI_select();
@@ -28,7 +27,6 @@ void MCP2515_write(uint8_t adr, unsigned char data){
 	SPI_deselect();
 }
 
-
 void MCP2515_read_buffer(unsigned char data){
 	SPI_select();
 	SPI_send(MCP_READ);
@@ -45,23 +43,12 @@ uint8_t MCP2515_read(uint8_t adr){
 	return received_data;
 }
 
-
 void MCP2515_testSPI(void){
-// 	SPI_initialize();
-// 	SPI_select();
-// 	SPI_send(MCP_RESET);
-	
 	for (int i = 0; i< 256; i++){
 	 	MCP2515_write(0b00000000,i);
 	 	printf("Value of i: %i\t value of reg:\t%i\n",i,MCP2515_read(0b00000000));
 	 }
-	
 }
-
-
-
-
-
 
 void MCP2515_request_to_send(uint8_t buffer){
 	SPI_select();

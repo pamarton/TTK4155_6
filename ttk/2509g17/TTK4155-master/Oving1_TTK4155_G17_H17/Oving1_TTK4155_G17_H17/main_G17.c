@@ -47,30 +47,22 @@ int main(void)
 	MCP2515_initialize();
 	CAN_initialize();
 	uint8_t data[8];
-	for (int i = 0; i<8; i++)
-	{
-		data[i] = i+3;
-	}
-	CAN_construct_meassage(6,8,data);
+	data[0] = 0;
+	CAN_construct_meassage(6,1,data);
 	sei();
 	//MCP2515_testSPI();	
-	
-	
-	
-	CAN_message_send(data);
-	//CAN_data_receive();
-	_delay_us(100);
-	
-	for (int i = 0; i<8; i++)
-	{
-		data[i] = i+100;
+	uint8_t d[20];
+	for(int i = 0; i < 20; i++){
+		data[0] = i;
+		CAN_message_send(data);
+		_delay_ms(1);
+		d[i] = CAN_message_receive()->data[0];
+		
 	}
 	
-	CAN_message_send(data);
-	//CAN_data_receive();
-	
-	
-	
+	for(int i = 0; i < 20; i++){
+		printf("%i %i\n",i,d[i]);
+	}
 	
 	while (1)
 	{
