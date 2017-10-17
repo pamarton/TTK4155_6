@@ -176,6 +176,16 @@ void sram_write_string(char letters[]){
 }
 
 
+void sram_write_int(int num){
+	if(num > 0){
+		sram_write_int(num/10);
+		sram_write_char('0'+ num%10);
+		
+		
+	}
+}
+
+
 int sram_write_char(char letter){
 	if (letter == '\n'){
 		page_sram = (page_sram+1)%8;

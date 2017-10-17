@@ -105,7 +105,7 @@ void menu_update(void){
 }
 	oled_goto_line(7);
 
-	sram_scroll_data(7,8);
+	sram_scroll_data(7,1);
 	write_screen();
 }
 

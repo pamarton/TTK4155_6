@@ -37,6 +37,7 @@ void write_screen(void);
 int sram_pixel(int x, int y);
 void sram_draw_line(int x0, int y0, int x1, int y1);
 int sram_write_char(char letter);
+void sram_write_int(int num);
 void sram_write_string(char letters[]);
 void sram_draw_circle(int x0, int y0, int radius);
 void sram_draw_triangle(uint8_t x0, uint8_t y0, uint8_t x1, uint8_t y1, uint8_t x2, uint8_t y2);

@@ -32,7 +32,7 @@ void bootscreen(void);
 //#include "MCP2515_driver.h"
 #include "can.h"
 
-
+int initialize_timer(uint8_t fps);
 int main(void)
 {
 	
@@ -41,7 +41,7 @@ int main(void)
 	sram_init();
 	oled_goto_line(7);
 	//sram_write_string(" - BYGGERN - G17");
-	
+	initialize_timer(60);//60 FPS
 	
 	
 	MCP2515_initialize();
@@ -63,17 +63,10 @@ int main(void)
 	for(int i = 0; i < 20; i++){
 		printf("%i %i\n",i,d[i]);
 	}
-	
-	while (1)
-	{
-		//int i = SPI_read_instruction(0b00000000);
-		//_delay_ms(1);
-		//printf("%i",i);
-	}
-	
-	
-	
+		
 	sei();
+	oled_goto_line(7);
+	sram_write_string("<----<<<");
 	while(1){
 		_delay_ms(20);
 		menu_update();
@@ -186,4 +179,27 @@ void bootscreen(void){
 	sram_draw_line(x-3,y-12,x,y);//end of number
 	write_screen();
 	_delay_ms(1000);
+}
+
+
+//INTERRUPT FOR TIMER
+uint8_t FLAG_refresh_screen;
+//BIT_ON(TCNT0,)
+//BIT_MASK(OCR0,)
+//TIFR// timer intr flag
+//TIMSK// timer intr flag mask
+#define PRESCALER 1024
+int initialize_timer(uint8_t fps){
+	TCNT0 = 0x00;//reset coutner
+	TCCR0 |= (1<<COM01)|(1<<COM00)|(1<<CS02)|(1<<CS00);//COM0n: Set OC0 mode (on compare match)		CS0n:set prescaler (to 1024)
+	//4915200/1024 = 4800Hz. Then we just need to count to 4800Hz/Desired_Fps to get the amount we need count to. (80)
+	FLAG_refresh_screen = 1;
+	OCR0 = (F_CPU/PRESCALER)/fps;//we want to count to 80 in order to get 60Hz refresh rate
+	sram_write_string("FPS: ");
+	sram_write_int(fps);
+	write_screen();
+	while(1){
+		
+	}
+	return 0;
 }
