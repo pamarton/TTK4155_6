@@ -9,10 +9,18 @@
 #ifndef OLED_H_
 #define OLED_H_
 
+//------------------------------------------//
+//	INCLUDES									//
+//------------------------------------------//
+
 #include <avr/io.h>
+
+//------------------------------------------//
+//	FUNCTIONS								//
+//------------------------------------------//
+
 void write_c(uint8_t cmd);
 void write_d(uint8_t data);
-
 void oled_home(void);
 void oled_ini(void);
 void oled_reset(void);
@@ -25,15 +33,13 @@ int oled_print_char_effect(char letter, char effect);
 void oled_reset(void);
 void oled_clear_line(unsigned int line);
 void sram_scroll_data(uint8_t line, uint8_t scroll);
-
-
-
+void sram_clear_line(uint8_t line);
 void sram_init(void);
 void sram_write(int rad,int kol, char data);
 void sram_write_and(int rad,int kol, char data);
 void sram_write_or(int rad,int kol, char data);
 void write_screen(void);
-
+void write_line(uint8_t line);
 int sram_pixel(int x, int y);
 void sram_draw_line(int x0, int y0, int x1, int y1);
 int sram_write_char(char letter);

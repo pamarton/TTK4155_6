@@ -11,10 +11,18 @@
 #ifndef ADC_H_
 #define ADC_H_
 
+//------------------------------------------//
+//	INCLUDES								//
+//------------------------------------------//
 
 #include <util/delay.h>
 #include "uart.h"
 #include "adc.h"
+
+//------------------------------------------//
+//	FUNCTIONS								//
+//------------------------------------------//
+
 unsigned int readADC(int channel);
 
 #endif /* ADC_H_ */

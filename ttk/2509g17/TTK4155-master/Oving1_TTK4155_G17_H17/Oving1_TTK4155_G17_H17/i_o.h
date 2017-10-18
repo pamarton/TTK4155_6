@@ -9,12 +9,20 @@
 #ifndef I_O_H_
 #define I_O_H_
 
+//------------------------------------------//
+//	INCLUDES								//
+//------------------------------------------//
+
+#include <avr/io.h>
+
+//------------------------------------------//
+//	DEFINITIONS								//
+//------------------------------------------//
+
 #define INPUT 0
 #define OUTPUT 1
 #define OFF 0
 #define ON 1
-
-#include <avr/io.h>
 
 #define SET_REG(p,d) ((p) = d)
 #define GET_REG(c,p) ((c) = p)
@@ -25,10 +33,6 @@
 #define BIT_SET(p,b,v) (v ? BIT_ON(p,b) : BIT_OFF(p,b))
 
 #define GET_VAL(c,p,b) (c = p & BIT_MASK(b))
-
-
-
-
 
 #define BIT_ON_A(b) BIT_ON(PORTA,b)
 #define BIT_OFF_A(b) BIT_OFF(PORTA, b)
@@ -45,8 +49,6 @@
 #define BIT_ON_D(b) BIT_ON(PORTD,b)
 #define BIT_OFF_D(b) BIT_OFF(PORTD, b)
 #define BIT_SET_D(b,v) BIT_SET(PORTD, b)
-
-
 
 #define WAIT_UNTIL_SET(r,b)	while(r |= BIT_MASK(b))
 

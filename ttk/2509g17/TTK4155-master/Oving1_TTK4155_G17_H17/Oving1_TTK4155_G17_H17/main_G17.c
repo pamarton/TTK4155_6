@@ -28,21 +28,10 @@ int main(void)
 {
 	initalize();
 	oled_goto_line(7);
-	//sram_write_string(" - BYGGERN - G17");
-	
-	sram_write_string("WOW SUCH FPS    ");
-	
-	MCP2515_initialize();
-	CAN_initialize();
-	sei();
-
+	sram_write_string(" - BYGGERN - G17");
 	while(1){
-		//_delay_ms(20);
 		menu_update();
 	}
-	
-	//testUart();
-	
 }
 
 
@@ -59,9 +48,7 @@ void initalize(void){
 	BIT_ON(SFIOR,XMM2);//HVORFOR GJORDE DE DETTE I OLED?
 
 	oled_ini();
-	
 	sram_init();
-	
 	bootscreen();
 	write_screen();
 	
@@ -72,6 +59,8 @@ void initalize(void){
 	initalize_interrupts();
 	
 	initialize_timer(FPS);//60 FPS
+	
+	CAN_initialize();
 	
 	sei();//enable interrupts
 }
@@ -129,12 +118,9 @@ void bootscreen(void){
 	
 	
 	x += 40;
-	sram_draw_rectangle(x-5,y,x+5,y-60);//number 1, end of number
-	//sram_draw_triangle(x-7,y-60,x+7,y-60,x,y-30);//1
-	//sram_draw_triangle(x-7,y,x+7,y,x,y-30);//1
-	
+	sram_draw_rectangle(x-5,y,x+5,y-60);
+
 	x += 40;
-	
 	sram_draw_line(x,y,x+15,y-60);//number 7
 	sram_draw_line(x-15,y-60,x+15,y-60);
 	sram_draw_line(x-15,y-60,x-12,y-48);

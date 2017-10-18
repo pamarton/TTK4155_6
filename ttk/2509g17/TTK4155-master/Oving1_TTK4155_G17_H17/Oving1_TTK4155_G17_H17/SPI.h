@@ -9,10 +9,18 @@
 #ifndef SPI_H_
 #define SPI_H_
 
+//------------------------------------------//
+//	INCLUDES								//
+//------------------------------------------//
+
 #include <avr/io.h>
 #include "uart.h" //REMOVE AFTER USE
 #include "i_o.h"
 #include "MCP2515.h"
+
+//------------------------------------------//
+//	FUNCTIONS								//
+//------------------------------------------//
 
 void SPI_initialize(void);
 void SPI_send(char data);

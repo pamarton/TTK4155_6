@@ -9,11 +9,10 @@
 void initalize_interrupts(void){
 	BIT_ON(DDRB, PD2);//enable input
 	BIT_ON(DDRB, PD3);
-	//BIT_ON(PORTB, PD2);//WHY DID WE DO THIS?
-	//BIT_ON(PORTB, PD3);//LEAVING THIS HERE FOR NOW 21.09.2017
 	
 	BIT_ON(MCUCR, ISC00);//configuring the interrupts for INT0 on rising edge
 	BIT_ON(MCUCR, ISC01);
+	
 	BIT_ON(MCUCR, ISC10);//configuring the interrupts for INT1 on rising edge
 	BIT_ON(MCUCR, ISC11);
 	
@@ -23,10 +22,10 @@ void initalize_interrupts(void){
 
 
 ISR(INT0_vect){//interrupt button Right
-	printf("Right button pressed, printing values:\t\t");
-	printf("X: %i\tY: %i\tL: %i\tR: %i\n",read_control_input('X'),read_control_input('Y'),read_control_input('L'),read_control_input('R'));//REMOVE THIS AND THE #INCLUDE "input_convercions.h" in button_interrupts.h
-	menu_right_button_flag();
+	//printf("Right button pressed, printing values:\t\t");
+	//printf("X: %i\tY: %i\tL: %i\tR: %i\n",read_control_input('X'),read_control_input('Y'),read_control_input('L'),read_control_input('R'));//REMOVE THIS AND THE #INCLUDE "input_convercions.h" in button_interrupts.h
+	menu_right_button_flag();//sets the interupt flag
 }
 ISR(INT1_vect){//interrupt button Left
-	menu_left_button_flag();
+	menu_left_button_flag();//sets the interrupt flag
 }

@@ -85,8 +85,6 @@ void menu_update(void){
 		{
 			sram_clear_line(j);
 		}
-
-		//sram_init();
 		
 		for (int i = 0; i < current_head->n_sib; i++)
 		{

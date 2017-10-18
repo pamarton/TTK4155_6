@@ -11,6 +11,7 @@ static CAN_message_t CAN_send_buffer;
 uint8_t FLAG_new_message = 0;
 
 void CAN_initialize(void){
+	MCP2515_initialize();
 	int i = 1;
 	i++;
 	EMCUCR &= ~(1<<ISC2);

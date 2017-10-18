@@ -8,12 +8,25 @@
 #ifndef UART_H_
 #define UART_H_
 
+//------------------------------------------//
+//	INCLUDES								//
+//------------------------------------------//
+
 #include "new_printf.h"
 #include <avr/io.h>
 #include <stdio.h>
+
+//------------------------------------------//
+//	DEFINITIONS								//
+//------------------------------------------//
+
 #define F_CPU 4915200 // clock frequency in Hz
 #define BAUDRATE 9600 // Valgt verdi data sendt pr sekund
 #define UBBR 32 - 1 //F_CPU/(16*BAUDRATE)-1 //USART BAUD RATE REGISTER VALUE
+
+//------------------------------------------//
+//	FUNCTIONS								//
+//------------------------------------------//
 
 void send_UART(char letter);
 void init_UART(unsigned int ubbr);
