@@ -62,10 +62,8 @@ void oled_ini(void)
 	write_c(0xa6);        //set  normal  display
 	write_c(0xaf);        //  display  on
 	
-	
 	oled_reset();
 	oled_home();
-
 }
 
 
@@ -110,6 +108,10 @@ void oled_goto_line(unsigned int line){
 void oled_goto_column(unsigned int column){
 	col_sram = column%128;
 }
+void oled_pos(unsigned int row,unsigned int column){
+	oled_goto_column(column);
+	oled_goto_line(row);
+}
 
 void oled_clear_line(unsigned int line){
 	oled_goto_line(line);
@@ -118,11 +120,9 @@ void oled_clear_line(unsigned int line){
 			write_d(0b00000000);
 		}
 	}
-} 
-
-void oled_pos(unsigned int row,unsigned int column){
-
 }
+/*
+
 
 
 int oled_print_char(char letter){
@@ -158,7 +158,7 @@ void oled_print_effect(char* letters, char effect){
 	while (oled_print_char_effect(letters[i++],effect)){
 	}
 }
-
+*/
 
 
 #define S_WITDTH 128
@@ -186,7 +186,7 @@ void sram_write_int(int num){
 }
 
 
-int sram_write_char(char letter){
+uint8_t sram_write_char(char letter){
 	if (letter == '\n'){
 		page_sram = (page_sram+1)%8;
 		col_sram = 0;
@@ -208,7 +208,7 @@ void sram_init(void){
 			ext_ram[r*128+k] = 0b00000000;
 		}
 	}
-	write_screen();
+	sram_push();
 }
 
 void sram_write(int page, int col, char data){
@@ -223,7 +223,7 @@ void sram_write_or(int page, int col, char data){
 	ext_ram[page%8*128 + col%128] |= data;
 }
 
-int sram_pixel(int x, int y){
+uint8_t sram_pixel(int x, int y){
 	if(x >= 0 && x < 128 && y >= 0 && y < 64){
 		sram_write_or((y/8),x,(1<<(y%8)));
 		return 1;
@@ -273,13 +273,13 @@ void sram_draw_circle(int x0, int y0, int radius){
 }
 
 
-void write_screen(void){	
+void sram_push(void){	
 	for(unsigned int line = 0; line < 8; line++){//Sends the data from the sram to the oled
-		write_line(line);
+		sram_push_line(line);
 	}
 }
 
-void write_line(uint8_t line){
+void sram_push_line(uint8_t line){
 	oled_goto_line(line);
 	for(unsigned int k = 0; k < 128; k++){
 		write_d(ext_ram[line*128 + k]);

@@ -50,7 +50,7 @@ void initalize(void){
 	oled_ini();
 	sram_init();
 	bootscreen();
-	write_screen();
+	sram_push();
 	
 	initialize_menu();
 	
@@ -131,6 +131,6 @@ void bootscreen(void){
 	sram_draw_line(x-6,y-24,x,y-24);
 	sram_draw_line(x,y-24,x-3,y-12);
 	sram_draw_line(x-3,y-12,x,y);//end of number
-	write_screen();
+	sram_push();
 	_delay_ms(1000);
 }

@@ -103,7 +103,7 @@ void menu_update(void){
 	}
 	
 	if(timer_check_flag()){//a timer with frequency of 60Hz ensures a framerate of 60Hz
-		write_screen();
+		sram_push();
 		timer_disable_flag();
 		sram_scroll_data(7,1);
 	}
@@ -191,7 +191,7 @@ void menu_set_contrast(void){
 	oled_goto_line(2);
 	strcpy_P(temp,btn_1);
 	sram_write_string(temp);
-	write_screen();
+	sram_push();
 	while (right_button_flag == 0){	
 		write_c(0x81);
 		write_c(readADC(3)/2);
@@ -220,7 +220,7 @@ void menu_calibrate_joystick(void){
 	oled_goto_line(2);
 	strcpy_P(temp,btn_1);
 	sram_write_string(temp);
-	write_screen();
+	sram_push();
 	while (right_button_flag == 0){
 		_delay_ms(1);
 	}
@@ -236,7 +236,7 @@ void menu_calibrate_joystick(void){
 		oled_clear_line(1);
 		strcpy_P(temp,(char*)pgm_read_word(&(calibrate_direction_array[i])));
 		sram_write_string(temp);
-		write_screen();
+		sram_push();
 		while (right_button_flag == 0){
 			_delay_ms(1);
 		}
