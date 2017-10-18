@@ -20,6 +20,4 @@ void initalize_interrupts(void);
 ISR(INT0_vect);//interrupt button Right
 ISR(INT1_vect);//interrupt button Left
 
-
-
 #endif /* BUTTON_INTERRUPTS_H_ */

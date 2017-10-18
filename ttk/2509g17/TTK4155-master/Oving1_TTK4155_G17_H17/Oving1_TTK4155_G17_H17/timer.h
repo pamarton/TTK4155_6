@@ -9,16 +9,25 @@
 #ifndef TIMER_H_
 #define TIMER_H_
 
+//------------------------------------------//
+//	INCLUDE									//
+//------------------------------------------//
+
 #include "common.h"
-									
-//-DECLARATIONS-----------------------------//
-
-int	initialize_timer(uint8_t fps);	//	Function for initilization of the timers 
-
-int	timer_get();	//	function for getting the value of the timer, (1 if the timer is up, 0 if timer is still counting)
-
-void timer_reset();	//	function for resetting the timer
+#include <avr/interrupt.h>
 
 //------------------------------------------//
+//	DECLARATIONS							//
+//------------------------------------------//
+
+void initialize_timer(uint8_t fps);	//	Function for initialization of the timers 
+uint8_t timer_check_flag(void);	//	function for checking the flag
+void timer_disable_flag(void); //	function for disabling the flag
+
+//------------------------------------------//
+//	INTERRUPTS									//
+//------------------------------------------//
+
+ISR(TIMER0_COMP_vect);//interrupt when Timer_0 is done
 
 #endif /* TIMER_H_ */

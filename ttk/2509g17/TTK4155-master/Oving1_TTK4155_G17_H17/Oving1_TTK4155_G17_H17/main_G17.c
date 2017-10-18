@@ -24,42 +24,20 @@ void bootscreen(void);
 #include "menu.h"
 #include "can.h"
 
-int initialize_timer(uint8_t fps);
 int main(void)
 {
-	
 	initalize();
-	
-	sram_init();
 	oled_goto_line(7);
 	//sram_write_string(" - BYGGERN - G17");
-	initialize_timer(60);//60 FPS
 	
+	sram_write_string("WOW SUCH FPS    ");
 	
 	MCP2515_initialize();
 	CAN_initialize();
-// 	uint8_t data[8];
-// 	data[0] = 0;
 	sei();
-	//MCP2515_testSPI();	
-// 	uint8_t d[20];
-// 	for(int i = 0; i < 20; i++){
-// 		data[0] = i;
-// 		CAN_message_send(data);
-// 		_delay_ms(1);
-// 		d[i] = CAN_message_receive()->data[0];
-// 		
-// 	}
-// 	
-// 	for(int i = 0; i < 20; i++){
-// 		printf("%i %i\n",i,d[i]);
-// 	}
-		
-	sei();
-	oled_goto_line(7);
-	sram_write_string("<----<<<");
+
 	while(1){
-		_delay_ms(20);
+		//_delay_ms(20);
 		menu_update();
 	}
 	
@@ -76,26 +54,25 @@ void initalize(void){
 	cli();//disable interrupts
 	init_UART(UBBR);
 	printf("LOADING g17_%s %s %s\nINITIALIZING...\n\nUART successfully initialized\n\n", VERSION,__DATE__,__TIME__);
+	
 	BIT_ON(MCUCR,SRE); //SET THIS IN SOME INITALIZE FUNBCTION
 	BIT_ON(SFIOR,XMM2);//HVORFOR GJORDE DE DETTE I OLED?
-	
+
 	oled_ini();
+	
 	sram_init();
-	//bootscreen();
-	//write_screen();
 	
+	bootscreen();
+	write_screen();
 	
-	printf("OLED successfully initialized\n");
 	initialize_menu();
 	
 	initialize_control_input();
-	printf("control input successfully initialized\n\n");
-	//SRAM_test();
-	printf("SRAM successfully initialized\n");
+	
 	initalize_interrupts();
-	printf("Interrupts successfully initialized\n");
-	printf("Interrupts activated\n");
-	printf("\nINITIALIZATION COMPLETE\n");
+	
+	initialize_timer(FPS);//60 FPS
+	
 	sei();//enable interrupts
 }
 

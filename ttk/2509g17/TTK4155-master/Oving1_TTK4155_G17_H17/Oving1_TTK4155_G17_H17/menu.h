@@ -13,6 +13,7 @@
 #include "uart.h"
 #include "input_conversion.h"
 #include "button_interrupts.h"
+#include "timer.h"
 
 #include <stdlib.h>//malloc
 typedef struct menu menu;

@@ -210,6 +210,7 @@ void sram_init(void){
 		}
 	}
 	edited = 0b11111111;
+	write_screen();
 }
 
 void sram_write(int page, int col, char data){

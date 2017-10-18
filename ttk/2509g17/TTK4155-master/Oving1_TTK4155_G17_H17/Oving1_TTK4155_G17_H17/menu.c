@@ -76,7 +76,7 @@ void initialize_menu(void){
 	current_selected = &mainmenu_0;
 	
 }
-
+int abc = 0;
 void menu_update(void){
 	if(navigate_menu()){ //if something is selected this is true, else the screen updates
 		
@@ -102,11 +102,13 @@ void menu_update(void){
 			current_head = current_head->ptr_sib_down;
 		}
 		
-}
-	oled_goto_line(7);
-
-	sram_scroll_data(7,1);
-	write_screen();
+	}
+	
+	if(timer_check_flag()){//a timer with frequency of 60Hz ensures a framerate of 60Hz
+		write_screen();
+		timer_disable_flag();
+		sram_scroll_data(7,1);
+	}
 }
 
 int y_lock = 0;
