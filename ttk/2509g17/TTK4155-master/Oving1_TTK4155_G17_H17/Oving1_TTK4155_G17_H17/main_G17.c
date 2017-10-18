@@ -4,17 +4,11 @@
  * Created: 04.09.2017 11:50:29
  *  Author: pamarton
  */ 
+
+#include "common.h" //common constants
 #include <stdio.h>
-#define VERSION "l4d2"
-#define F_CPU 4915200 // clock frequency in Hz
-#define BAUDRATE 9600 // Valgt verdi data sendt pr sekund
-#define UBBR 32 - 1 //F_CPU/(16*BAUDRATE)-1 //USART BAUD RATE REGISTER VALUE
 #include "adc.h"
 #include <avr/io.h>
-
-#define UNDERLINE 0b10000000
-#define STREAKTROUGH 0b00010000
-#define CENCORED 0b11111111
 
 //#include <avr/interrupt.h>
 #include "uart.h"
@@ -22,14 +16,12 @@
 #include "input_conversion.h"
 #include "button_interrupts.h"
 
-#define MAX_SIGNAL 0xFF
-#define MIN_SIGNAL 0
+
 void SRAM_test(void);
 void initalize(void);
 void bootscreen(void);
 #include "oled.h"
 #include "menu.h"
-//#include "MCP2515_driver.h"
 #include "can.h"
 
 int initialize_timer(uint8_t fps);
@@ -46,23 +38,22 @@ int main(void)
 	
 	MCP2515_initialize();
 	CAN_initialize();
-	uint8_t data[8];
-	data[0] = 0;
-	CAN_construct_meassage(6,1,data);
+// 	uint8_t data[8];
+// 	data[0] = 0;
 	sei();
 	//MCP2515_testSPI();	
-	uint8_t d[20];
-	for(int i = 0; i < 20; i++){
-		data[0] = i;
-		CAN_message_send(data);
-		_delay_ms(1);
-		d[i] = CAN_message_receive()->data[0];
-		
-	}
-	
-	for(int i = 0; i < 20; i++){
-		printf("%i %i\n",i,d[i]);
-	}
+// 	uint8_t d[20];
+// 	for(int i = 0; i < 20; i++){
+// 		data[0] = i;
+// 		CAN_message_send(data);
+// 		_delay_ms(1);
+// 		d[i] = CAN_message_receive()->data[0];
+// 		
+// 	}
+// 	
+// 	for(int i = 0; i < 20; i++){
+// 		printf("%i %i\n",i,d[i]);
+// 	}
 		
 	sei();
 	oled_goto_line(7);
@@ -130,7 +121,7 @@ void SRAM_test(void)//CAN BE REMOVED, IN CASE OF LOW STORAGE
 			write_errors++;
 		}
 	}
-	// Retrieval phase: Check that no values were changed during or after the writephase
+	// Retrieval phase: Check that no values were changed during or after the write phase
 	srand(seed);
 	// reset the PRNG to the state it had before the write phase
 	for (uint16_t i = 0; i < ext_ram_size; i++) {
@@ -179,27 +170,4 @@ void bootscreen(void){
 	sram_draw_line(x-3,y-12,x,y);//end of number
 	write_screen();
 	_delay_ms(1000);
-}
-
-
-//INTERRUPT FOR TIMER
-uint8_t FLAG_refresh_screen;
-//BIT_ON(TCNT0,)
-//BIT_MASK(OCR0,)
-//TIFR// timer intr flag
-//TIMSK// timer intr flag mask
-#define PRESCALER 1024
-int initialize_timer(uint8_t fps){
-	TCNT0 = 0x00;//reset coutner
-	TCCR0 |= (1<<COM01)|(1<<COM00)|(1<<CS02)|(1<<CS00);//COM0n: Set OC0 mode (on compare match)		CS0n:set prescaler (to 1024)
-	//4915200/1024 = 4800Hz. Then we just need to count to 4800Hz/Desired_Fps to get the amount we need count to. (80)
-	FLAG_refresh_screen = 1;
-	OCR0 = (F_CPU/PRESCALER)/fps;//we want to count to 80 in order to get 60Hz refresh rate
-	sram_write_string("FPS: ");
-	sram_write_int(fps);
-	write_screen();
-	while(1){
-		
-	}
-	return 0;
 }

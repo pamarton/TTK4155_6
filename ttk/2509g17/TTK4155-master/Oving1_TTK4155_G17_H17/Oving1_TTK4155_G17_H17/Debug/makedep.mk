@@ -22,5 +22,7 @@ oled.c
 
 SPI.c
 
+timer.c
+
 uart.c
 

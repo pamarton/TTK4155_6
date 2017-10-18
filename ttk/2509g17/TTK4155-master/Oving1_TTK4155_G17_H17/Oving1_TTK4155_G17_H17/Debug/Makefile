@@ -47,6 +47,7 @@ C_SRCS +=  \
 ../menu.c \
 ../oled.c \
 ../SPI.c \
+../timer.c \
 ../uart.c
 
 
@@ -67,6 +68,7 @@ MCP2515_driver.o \
 menu.o \
 oled.o \
 SPI.o \
+timer.o \
 uart.o
 
 OBJS_AS_ARGS +=  \
@@ -80,6 +82,7 @@ MCP2515_driver.o \
 menu.o \
 oled.o \
 SPI.o \
+timer.o \
 uart.o
 
 C_DEPS +=  \
@@ -93,6 +96,7 @@ MCP2515_driver.d \
 menu.d \
 oled.d \
 SPI.d \
+timer.d \
 uart.d
 
 C_DEPS_AS_ARGS +=  \
@@ -106,6 +110,7 @@ MCP2515_driver.d \
 menu.d \
 oled.d \
 SPI.d \
+timer.d \
 uart.d
 
 OUTPUT_FILE_PATH +=Oving1_TTK4155_G17_H17.elf
@@ -122,6 +127,8 @@ LINKER_SCRIPT_DEP+=
 
 
 # AVR32/GNU C Compiler
+
+
 
 
 

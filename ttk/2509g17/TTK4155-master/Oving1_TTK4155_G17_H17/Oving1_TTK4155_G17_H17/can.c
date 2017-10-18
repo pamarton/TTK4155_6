@@ -6,8 +6,9 @@
  */ 
 
 #include "can.h"
-volatile static CAN_message_t CAN_receive_buffer;
+static CAN_message_t CAN_receive_buffer; //VOLATILE ??????????????????????????????
 static CAN_message_t CAN_send_buffer;
+uint8_t FLAG_new_message = 0;
 
 void CAN_initialize(void){
 	int i = 1;
@@ -15,17 +16,18 @@ void CAN_initialize(void){
 	EMCUCR &= ~(1<<ISC2);
 	GICR |= (1<<INT2);
 	MCP2515_bit_modify(CANINTE,0b00000001,0b00000001);
+	CAN_construct_meassage(CAN_ID,CAN_MESSAGE_LENGTH);
 }
 
 CAN_message_t* CAN_message_receive(void){	
 	return &CAN_receive_buffer;
 }
 
-void CAN_construct_meassage(int id, uint8_t length, uint8_t *data){
+void CAN_construct_meassage(int id, uint8_t length){
 	CAN_send_buffer.id = id;
 	CAN_send_buffer.length = length;
-	for(uint8_t i = 0; i < CAN_send_buffer.length; i++){
-		CAN_send_buffer.data[i] = data[i];
+	for(uint8_t i = 0; i < length; i++){
+		CAN_send_buffer.data[i] = 0;
 	}
 }
 
@@ -55,14 +57,9 @@ uint8_t CAN_read(uint8_t adr){
 	return MCP2515_read(adr);
 }
 
-#define RXBnSIDH 0x61
-#define RXBnSIDL 0x62
-#define RXBnDLC 0x65
-#define RXBnDM 0x66
-
 void CAN_data_receive() {
 	uint8_t n = CAN_transmit_complete();
-	if (n >= 1){
+	if (n >= 0){
 		CAN_receive_buffer.id = ((CAN_read(RXBnSIDH + n*0x10)<<3)|(0b11100000 & (CAN_read(RXBnSIDL + n*0x10))>>5));
 		CAN_receive_buffer.length = (CAN_read(RXBnDLC + n*0x10) & 0b00001111);
 		for (uint8_t m = 0; m < CAN_receive_buffer.length; m++){
@@ -71,11 +68,16 @@ void CAN_data_receive() {
 		
 	}
 	printf("%i",CAN_receive_buffer.data[0]);
-	MCP2515_bit_modify(MCP_CANINTF,0xFF,0); //clear all interrupts
+	MCP2515_bit_modify(MCP_CANINTF,0xFF,0); //clear all interrupts //CHANGE THIS SO IT JUST CLEARS THE CORRECT INTERRUPTS
 }
 
-ISR(INT2_vect){//interrupt button Left
-	CAN_data_receive();
+
+
+ISR(INT2_vect){//interrupt incomming message
+	cli();
+	//IF there is a message in inbox 0, flag 1<<0, then if there is a message in inbox 1, flag 1<<1 this
+	FLAG_new_message = 0b01;
+	sei();
 }
 
 
